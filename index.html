@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Score Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Average Score Calculator</h1>
+        <div class="input-group">
+            <label for="currentScores">Enter Current Scores (comma-separated):</label>
+            <input type="text" id="currentScores" placeholder="e.g., 3.5, 4.7, 3.7">
+        </div>
+        <div class="input-group">
+            <label for="desiredAverage">Select Desired Average Score:</label>
+            <select id="desiredAverage">
+                <option value="3.5">3.5</option>
+                <option value="3.7">3.7</option>
+                <option value="4.5">4.5</option>
+                <option value="4.7">4.7</option>
+            </select>
+        </div>
+        <button onclick="calculateTopScores()">Calculate</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateTopScores() {
+            const currentScoresInput = document.getElementById('currentScores').value;
+            const desiredAverage = parseFloat(document.getElementById('desiredAverage').value);
+            const resultDiv = document.getElementById('result');
+
+            // Parse current scores using regex
+            const scores = currentScoresInput.match(/\d+(\.\d+)?/g).map(Number);
+
+            if (scores.length === 0) {
+                resultDiv.textContent = 'Please enter valid scores.';
+                return;
+            }
+
+            const currentSum = scores.reduce((sum, score) => sum + score, 0);
+            const currentCount = scores.length;
+            const currentAverage = currentSum / currentCount;
+
+            if (currentAverage >= desiredAverage) {
+                resultDiv.textContent = 'You have already achieved the desired average.';
+                return;
+            }
+
+            const topScore = 4.7; // Assuming the top score is 4.7
+            let additionalScoresNeeded = 0;
+
+            while (true) {
+                const newSum = currentSum + additionalScoresNeeded * topScore;
+                const newCount = currentCount + additionalScoresNeeded;
+                const newAverage = newSum / newCount;
+
+                if (newAverage >= desiredAverage) {
+                    break;
+                }
+
+                additionalScoresNeeded++;
+            }
+
+            resultDiv.textContent = `You need ${additionalScoresNeeded} top scores of ${topScore} to achieve an average of ${desiredAverage}.`;
+        }
+    </script>
+</body>
+</html>
