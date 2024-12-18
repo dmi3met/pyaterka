@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Average Score Calculator</title>
+    <title>Сколько пятёрок надо, чтобы вытянуть оценку</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,21 +39,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>Average Score Calculator</h1>
+        <h1>Сколько пятёрок надо, чтобы вытянуть оценку</h1>
         <div class="input-group">
-            <label for="currentScores">Enter Current Scores (comma-separated):</label>
-            <input type="text" id="currentScores" placeholder="e.g., 3.5, 4.7, 3.7">
+            <label for="currentScores">Вставьте текущие оценки:</label>
+            <input type="text" id="currentScores" placeholder="3, 4, 5 2/2">
         </div>
         <div class="input-group">
-            <label for="desiredAverage">Select Desired Average Score:</label>
+            <label for="desiredAverage">До какой оценки вытягивать:</label>
             <select id="desiredAverage">
-                <option value="3.5">3.5</option>
-                <option value="3.7">3.7</option>
-                <option value="4.5">4.5</option>
-                <option value="4.7">4.7</option>
+                <option value="3.5">3.5 До четвёрки</option>
+                <option value="4.5">4.5 До пятёрки</option>
             </select>
         </div>
-        <button onclick="calculateTopScores()">Calculate</button>
+        <button onclick="calculateTopScores()">Вычислить</button>
         <div class="result" id="result"></div>
     </div>
 
@@ -63,11 +61,10 @@
             const desiredAverage = parseFloat(document.getElementById('desiredAverage').value);
             const resultDiv = document.getElementById('result');
 
-            // Parse current scores using regex
-            const scores = currentScoresInput.match(/\d+(\.\d+)?/g).map(Number);
+            const scores = currentScoresInput.match(/\d/g).map(Number);
 
             if (scores.length === 0) {
-                resultDiv.textContent = 'Please enter valid scores.';
+                resultDiv.textContent = 'Проверьте введенные числа.';
                 return;
             }
 
@@ -76,11 +73,11 @@
             const currentAverage = currentSum / currentCount;
 
             if (currentAverage >= desiredAverage) {
-                resultDiv.textContent = 'You have already achieved the desired average.';
+                resultDiv.textContent = 'Оценки в порядке.';
                 return;
             }
 
-            const topScore = 4.7; // Assuming the top score is 4.7
+            const topScore = 5; 
             let additionalScoresNeeded = 0;
 
             while (true) {
@@ -95,7 +92,7 @@
                 additionalScoresNeeded++;
             }
 
-            resultDiv.textContent = `You need ${additionalScoresNeeded} top scores of ${topScore} to achieve an average of ${desiredAverage}.`;
+            resultDiv.textContent = `Сколько пятёрок нужно получить: ${additionalScoresNeeded}`;
         }
     </script>
 </body>
